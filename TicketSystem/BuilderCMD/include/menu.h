@@ -6,6 +6,8 @@ class Admin
 {
     public:
     void adminMenu();
+    void adminLogIn();
+    void createOrDeleteMovie();
 };
 class Customer
 {
@@ -14,3 +16,4 @@ class Customer
 };
 
 void menuChoice();
+void chooseCinema();
