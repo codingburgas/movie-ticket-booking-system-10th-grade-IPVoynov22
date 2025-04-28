@@ -67,7 +67,7 @@ void Admin::adminMenu()
 void Customer::customerMenu()
 {
 	clearscreen();
-	cout << "You have chosen customer menu!";
+	customerLogin();
 }
 
 void chooseCinema()
@@ -120,6 +120,33 @@ void menuChoice()
 
 	delete customerPtr;
 	delete adminPtr;
+}
+
+void Customer::customerLogin()
+{
+	cout << "You have chosen customer menu!" << endl;
+	cout << "1 for Register" << endl << "2 for Login" << endl;
+	int registOrLog;
+	cin >> registOrLog;
+	string userRegister, passRegister;
+	string userLogIn, passLogIn;
+	switch (registOrLog)
+	{
+	case 1: clearscreen();
+		cout << "You chose to register" << endl;
+		cout << "Username:";
+		cin >> userRegister;
+		cout << "Password:";
+		cin >> passRegister;
+		break;
+	case 2:
+		cout << "You chose to logIn" << endl;
+		cout << "Username:";
+		cin >> userLogIn;
+		cout << "Password:";
+		cin >> passLogIn;
+		break;
+	}
 }
 
 

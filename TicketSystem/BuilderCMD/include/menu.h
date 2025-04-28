@@ -13,7 +13,9 @@ class Customer
 {
     public:
     void customerMenu();
+    void customerLogin();
 };
+    
 
 void menuChoice();
 void chooseCinema();
