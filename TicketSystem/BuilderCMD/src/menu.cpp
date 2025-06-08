@@ -139,23 +139,58 @@ void Customer::customerLogin()
 	cout << "1 for Register" << endl << "2 for Login" << endl;
 	int registOrLog;
 	cin >> registOrLog;
+
 	string userRegister, passRegister;
 	string userLogIn, passLogIn;
+
 	switch (registOrLog)
 	{
-	case 1: clearscreen();
-		cout << "You chose to register" << endl;
-		cout << "Username:";
-		cin >> userRegister;
-		cout << "Password:";
-		cin >> passRegister;
+	case 1:
+	{
+		clearscreen();
+
+		ifstream customer("Users\\Customer.txt");
+		if (!customer.is_open())
+		{
+			cout << "You chose to register" << endl;
+			cout << "Username:";
+			cin >> userRegister;
+			ofstream createFile("Users\\Customer.txt");
+			createFile << userRegister << endl;
+			cout << "Password:";
+			cin >> passRegister;
+			createFile << passRegister << endl;
+			createFile.close();
+
+		}
+		else
+		{
+			customer.close();
+		}
 		break;
+	}
 	case 2:
 		cout << "You chose to logIn" << endl;
 		cout << "Username:";
+		string userUsername;
+		string userPassword;
+
+		ifstream file("Users\\Customer.txt");
+
+		getline(file, userUsername);
+		getline(file, userPassword);
+
 		cin >> userLogIn;
-		cout << "Password:";
-		cin >> passLogIn;
+		if (userLogIn == userUsername)
+		{
+			cout << "Password:";
+			cin >> passLogIn;
+			if (passLogIn == userPassword)
+			{
+				cout << "You successfully logged in";
+			}
+		}
+		
 		break;
 	}
 }
