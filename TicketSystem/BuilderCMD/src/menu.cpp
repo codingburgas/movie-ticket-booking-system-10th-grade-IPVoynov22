@@ -10,14 +10,25 @@ void Admin::adminLogIn()
 {
 	string userName;
 	string passWord;
+
+	string adminUsername;
+	string adminPassword;
+
+	ifstream file("Users\\adminData.txt");
+
+	getline(file, adminUsername);
+	getline(file, adminPassword);
+
+	file.close();
+	
 	cout << "                               You have chosen admin menu!" << endl;
 	cout << "You have to log in to use admin menu!" << endl << "Username: ";
 	cin >> userName;
-	if (userName == "admin")
+	if (userName == adminUsername)
 	{
 		cout << "Password: ";
 		cin >> passWord;
-		if (passWord == "admin")
+		if (passWord == adminPassword)
 		{
 			clearscreen();
 			cout << "                       You have loged in successfully!" << endl;
