@@ -5,11 +5,14 @@
 using namespace std;
 
 class Admin
-{
+{   
     public:
     void adminMenu();
     void adminLogIn();
     void createOrDeleteMovie();
+    void addFilm();
+    void chooseCinema();
+    int cinema;
 };
 class Customer
 {
@@ -17,7 +20,9 @@ class Customer
     void customerMenu();
     void customerLogin();
 };
-    
+struct MovieInfo
+{
+    string title, language, genre, releaseDate;
+};
 
 void menuChoice();
-void chooseCinema();

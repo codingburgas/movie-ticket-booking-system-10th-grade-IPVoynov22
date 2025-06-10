@@ -46,6 +46,32 @@ void Admin::adminLogIn()
 	}
 }
 
+void Admin::addFilm()
+{
+	ofstream makeFilm;
+	MovieInfo movieInfo;
+	cout << "Enter movie title: ";
+	cin >> movieInfo.title;
+	cout <<  endl << "Enter movie language: ";
+	cin >> movieInfo.language;
+	cout << endl << "Enter movie genre: ";
+	cin >> movieInfo.genre;
+	cout << endl << "Enter movie releaseDate: ";
+	cin >> movieInfo.releaseDate;
+	if (cinema == 1)
+	{
+		makeFilm.open("cinemaMax\\Movie\\Movie" + movieInfo.title + ".txt");
+	}
+	else if (cinema == 2)
+	{
+		makeFilm.open("cinemaCity\\Movie\\Movie" + movieInfo.title + ".txt");
+	}
+	makeFilm << movieInfo.title << endl;
+	makeFilm << movieInfo.language << endl;
+	makeFilm << movieInfo.genre << endl;
+	makeFilm << movieInfo.releaseDate << endl;
+}
+
 void Admin::createOrDeleteMovie()
 {
 	cout << "Choose what you wnat to do" << endl << "1 for adding a new movie" << endl << "2 for deleting an existing movie" << endl;
@@ -55,7 +81,8 @@ void Admin::createOrDeleteMovie()
 	{
 	case 1:
 		clearscreen();
-		cout << "You have chosen to add a film!";
+		cout << "You have chosen to add a film!" << endl;
+		addFilm();
 		break;
 	case 2:
 		clearscreen();
@@ -81,10 +108,9 @@ void Customer::customerMenu()
 	customerLogin();
 }
 
-void chooseCinema()
+void Admin::chooseCinema()
 {
 	clearscreen();
-	int cinema;
 	cout << "Choose in which cinema you want to go" << endl << "1 for cinemaCity" << endl << "2 for cinemaMax" << endl;
 	cin >> cinema;
 	switch (cinema)
