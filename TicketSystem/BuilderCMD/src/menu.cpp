@@ -1,5 +1,6 @@
-
+﻿
 #include "../Include/Menu.h"
+namespace fs = std::filesystem;
 
 void clearscreen()
 {
@@ -46,10 +47,56 @@ void Admin::adminLogIn()
 	}
 }
 
+void Admin::display()
+{
+
+	cout << endl << endl;
+	std::filesystem::path path;
+
+	if (cinema == 1)
+		path = "cinemaCity\\Movie";
+	else if (cinema == 2)
+		path = "cinemaMax\\Movie";
+
+	for (const auto& e : fs::directory_iterator(path))
+	{
+		if (e.is_regular_file())
+			std::cout << e.path().filename() << std::endl;
+	}
+
+}
+void Admin::deletefilm()
+{
+		display();
+		string movie;
+		cout << "Enter movie: ";
+		cin >> movie;
+		switch (cinema) 
+		{
+		case 1: 
+		{
+			string filename = "cinemaCity\\Movie\\" + movie + ".txt";
+			remove(filename.c_str());
+			cout << "DONE";
+			break;
+		}
+		case 2:
+		{
+			string filename = "cinemaMax\\Movie\\" + movie + ".txt";
+			remove(filename.c_str());
+			cout << "DONE";
+			break;
+		}
+
+		}
+}
+
+
 void Admin::addFilm()
 {
 	ofstream makeFilm;
 	MovieInfo movieInfo;
+
 	cout << "Enter movie title: ";
 	cin >> movieInfo.title;
 	cout <<  endl << "Enter movie language: ";
@@ -58,18 +105,21 @@ void Admin::addFilm()
 	cin >> movieInfo.genre;
 	cout << endl << "Enter movie releaseDate: ";
 	cin >> movieInfo.releaseDate;
+
 	if (cinema == 1)
 	{
-		makeFilm.open("cinemaMax\\Movie\\Movie" + movieInfo.title + ".txt");
+		makeFilm.open("cinemaCity\\Movie\\" + movieInfo.title + ".txt");
 	}
 	else if (cinema == 2)
 	{
-		makeFilm.open("cinemaCity\\Movie\\Movie" + movieInfo.title + ".txt");
+		makeFilm.open("cinemaMax\\Movie\\" + movieInfo.title + ".txt");
 	}
 	makeFilm << movieInfo.title << endl;
 	makeFilm << movieInfo.language << endl;
 	makeFilm << movieInfo.genre << endl;
 	makeFilm << movieInfo.releaseDate << endl;
+
+	makeFilm.close();
 }
 
 void Admin::createOrDeleteMovie()
@@ -87,6 +137,7 @@ void Admin::createOrDeleteMovie()
 	case 2:
 		clearscreen();
 		cout << "You have chosen to delete an existing film!";
+		deletefilm();
 		break;
 	default:
 		clearscreen();
@@ -220,5 +271,3 @@ void Customer::customerLogin()
 		break;
 	}
 }
-
-

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <filesystem>
+#include <cstdio>
 
 using namespace std;
 
@@ -11,7 +13,9 @@ class Admin
     void adminLogIn();
     void createOrDeleteMovie();
     void addFilm();
+    void deletefilm();
     void chooseCinema();
+    void display();
     int cinema;
 };
 class Customer
