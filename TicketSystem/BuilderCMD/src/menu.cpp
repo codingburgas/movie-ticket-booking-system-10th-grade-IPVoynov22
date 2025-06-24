@@ -100,6 +100,31 @@ void Admin::addShow()
 
 	fileShow.close();
 }
+
+void Admin::deleteShow()
+{
+	display();
+	string show;
+	cout << "Enter show: ";
+	cin >> show;
+	switch (cinema)
+		{
+		case 1:
+		{
+			string filename = "cinemaCity\\Show\\" + show + ".txt";
+			remove(filename.c_str());
+			cout << "DONE";
+			break;
+		}
+		case 2:
+		{
+			string filename = "cinemaMax\\Show\\" + show + ".txt";
+			remove(filename.c_str());
+			cout << "DONE";
+			break;
+		}
+	}
+}
 void Admin::deletefilm()
 {
 		display();
@@ -183,6 +208,11 @@ void Admin::createOrDeleteMovie()
 		clearscreen();
 		cout << "You have chosen to add a show!";
 		addShow();
+		break;
+	case 4:
+		clearscreen();
+		cout << "You have chosen to delete a show!";
+		deleteShow();
 		break;
 	default:
 		clearscreen();

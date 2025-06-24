@@ -15,6 +15,7 @@ class Admin
     void addFilm();
     void deletefilm();
     void addShow();
+    void deleteShow();
     void chooseCinema();
     void display();
     int cinema;
