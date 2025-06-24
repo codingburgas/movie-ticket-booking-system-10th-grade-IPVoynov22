@@ -14,9 +14,13 @@ class Admin
     void createOrDeleteMovie();
     void addFilm();
     void deletefilm();
+    void addShow();
     void chooseCinema();
     void display();
     int cinema;
+    string projectionDate;
+    string filmTittle;
+    string typeOfSeat;
 };
 class Customer
 {

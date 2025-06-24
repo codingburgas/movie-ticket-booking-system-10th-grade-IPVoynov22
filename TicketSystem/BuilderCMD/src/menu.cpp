@@ -65,6 +65,41 @@ void Admin::display()
 	}
 
 }
+void Admin::addShow()
+{
+	display();
+	cout << "Which movie you want to select" << endl;
+	string name;
+	cin >> name;
+	cout << "Enter show date" << endl;
+	string date;
+	cin >> date;
+	projectionDate = date;
+	filmTittle = name;
+	cout << "Choose seat type, you can choose from: Silver, Gold and Platinum" << endl;
+	string type;
+	cin >> type;
+
+	if (type == "Silver" || type == "Gold" || type == "Platinum")
+		typeOfSeat = type;
+
+	string current;
+	if (cinema == 1)
+		current = "cinemaCity\\Show\\";
+	else if (cinema == 2)
+		current = "cinemaMax\\Show\\";
+
+	ofstream fileShow(current + name + ".txt");
+	filmTittle = name;
+	projectionDate = date;
+	typeOfSeat = type;
+
+	fileShow << filmTittle << endl;
+	fileShow << projectionDate << endl;
+	fileShow << typeOfSeat << endl;
+
+	fileShow.close();
+}
 void Admin::deletefilm()
 {
 		display();
@@ -124,7 +159,12 @@ void Admin::addFilm()
 
 void Admin::createOrDeleteMovie()
 {
-	cout << "Choose what you wnat to do" << endl << "1 for adding a new movie" << endl << "2 for deleting an existing movie" << endl;
+	cout << "Choose what you wnat to do" << endl;
+	cout << "1 for adding a new movie" << endl;
+	cout << "2 for deleting an existing movie" << endl;
+	cout << "3 for adding a show" << endl;
+	cout << "4 for deleting a show" << endl;
+	cout << "5 for updating a show" << endl;
 	int inAdminMenuChoice;
 	cin >> inAdminMenuChoice;
 	switch (inAdminMenuChoice)
@@ -138,6 +178,11 @@ void Admin::createOrDeleteMovie()
 		clearscreen();
 		cout << "You have chosen to delete an existing film!";
 		deletefilm();
+		break;
+	case 3:
+		clearscreen();
+		cout << "You have chosen to add a show!";
+		addShow();
 		break;
 	default:
 		clearscreen();
