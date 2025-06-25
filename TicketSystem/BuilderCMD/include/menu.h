@@ -16,8 +16,10 @@ class Admin
     void deletefilm();
     void addShow();
     void deleteShow();
+    void updateShow();
     void chooseCinema();
     void display();
+    void displayShow();
     int cinema;
     string projectionDate;
     string filmTittle;

@@ -47,6 +47,23 @@ void Admin::adminLogIn()
 	}
 }
 
+void Admin::displayShow()
+{
+	cout << endl << endl;
+	std::filesystem::path path;
+
+	if (cinema == 1)
+		path = "cinemaCity\\Show";
+	else if (cinema == 2)
+		path = "cinemaMax\\Show";
+
+	for (const auto& e : fs::directory_iterator(path))
+	{
+		if (e.is_regular_file())
+			std::cout << e.path().filename() << std::endl;
+	}
+
+}
 void Admin::display()
 {
 
@@ -124,6 +141,72 @@ void Admin::deleteShow()
 			break;
 		}
 	}
+}
+void Admin::updateShow()
+{
+	displayShow();
+	cout << "Choose which show you want to update" << endl;
+	string showChoice;
+	cin >> showChoice;
+
+	string filePath;
+
+	if (cinema == 1)
+		filePath = "cinemaCity\\Show\\" + showChoice + ".txt";
+	else if (cinema == 2)
+		filePath = "cinemaMax\\Show\\" + showChoice + ".txt";
+
+	ifstream inFile(filePath);
+	if (!inFile.is_open())
+	{
+		cout << "Show not found!" << endl;
+		return;
+	}
+
+	string currentTitle, currentDate, currentSeat;
+	getline(inFile, currentTitle);
+	getline(inFile, currentDate);
+	getline(inFile, currentSeat);
+	inFile.close();
+
+	cout << "Current information:" << endl;
+	cout << "Title: " << currentTitle << endl;
+	cout << "Date: " << currentDate << endl;
+	cout << "Seat Type: " << currentSeat << endl;
+
+	cout << "\nEnter new title (or press Enter to keep it): ";
+	cin.ignore(); // clear newline from previous input
+	string newTitle;
+	getline(cin, newTitle);
+	if (newTitle.empty()) newTitle = currentTitle;
+
+	cout << "Enter new date (or press Enter to keep it): ";
+	string newDate;
+	getline(cin, newDate);
+	if (newDate.empty()) newDate = currentDate;
+
+	cout << "Enter new seat type (Silver, Gold, Platinum) (or press Enter to keep it): ";
+	string newSeat;
+	getline(cin, newSeat);
+	if (newSeat.empty()) newSeat = currentSeat;
+
+	// Delete old file if title was changed
+	if (newTitle != currentTitle)
+	{
+		remove(filePath.c_str());
+		if (cinema == 1)
+			filePath = "cinemaCity\\Show\\" + newTitle + ".txt";
+		else if (cinema == 2)
+			filePath = "cinemaMax\\Show\\" + newTitle + ".txt";
+	}
+
+	ofstream outFile(filePath);
+	outFile << newTitle << endl;
+	outFile << newDate << endl;
+	outFile << newSeat << endl;
+	outFile.close();
+
+	cout << "Show updated successfully!" << endl;
 }
 void Admin::deletefilm()
 {
@@ -213,6 +296,11 @@ void Admin::createOrDeleteMovie()
 		clearscreen();
 		cout << "You have chosen to delete a show!";
 		deleteShow();
+		break;
+	case 5:
+		clearscreen();
+		cout << "You have chosen to update a show!";
+		updateShow();
 		break;
 	default:
 		clearscreen();
