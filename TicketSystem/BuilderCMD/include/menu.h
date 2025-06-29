@@ -6,8 +6,15 @@
 
 using namespace std;
 
+extern const double silverTicket;
+extern const double goldTicket;
+extern const double platinumTicket;
+
 class Admin
 {   
+    int seats[9][9] = { 0 };
+    int row, col;
+    string showName;
     public:
     void adminMenu();
     void adminLogIn();
@@ -20,6 +27,9 @@ class Admin
     void chooseCinema();
     void display();
     void displayShow();
+    void loadSeats();
+    void saveSeats();
+    void bookSeat();
     int cinema;
     string projectionDate;
     string filmTittle;
@@ -37,3 +47,6 @@ struct MovieInfo
 };
 
 void menuChoice();
+
+static string tierFromRow(int r);
+static double priceFromRow(int r);

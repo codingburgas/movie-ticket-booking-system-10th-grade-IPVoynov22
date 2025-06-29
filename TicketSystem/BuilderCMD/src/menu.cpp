@@ -157,6 +157,7 @@ void Admin::updateShow()
 		filePath = "cinemaMax\\Show\\" + showChoice + ".txt";
 
 	ifstream inFile(filePath);
+
 	if (!inFile.is_open())
 	{
 		cout << "Show not found!" << endl;
@@ -175,7 +176,7 @@ void Admin::updateShow()
 	cout << "Seat Type: " << currentSeat << endl;
 
 	cout << "\nEnter new title (or press Enter to keep it): ";
-	cin.ignore(); // clear newline from previous input
+	cin.ignore(); 
 	string newTitle;
 	getline(cin, newTitle);
 	if (newTitle.empty()) newTitle = currentTitle;
@@ -190,7 +191,7 @@ void Admin::updateShow()
 	getline(cin, newSeat);
 	if (newSeat.empty()) newSeat = currentSeat;
 
-	// Delete old file if title was changed
+	
 	if (newTitle != currentTitle)
 	{
 		remove(filePath.c_str());
@@ -273,6 +274,7 @@ void Admin::createOrDeleteMovie()
 	cout << "3 for adding a show" << endl;
 	cout << "4 for deleting a show" << endl;
 	cout << "5 for updating a show" << endl;
+	cout << "6 for booking a seat" << endl;
 	int inAdminMenuChoice;
 	cin >> inAdminMenuChoice;
 	switch (inAdminMenuChoice)
@@ -302,6 +304,11 @@ void Admin::createOrDeleteMovie()
 		cout << "You have chosen to update a show!";
 		updateShow();
 		break;
+	case 6:
+		clearscreen();
+		cout << "You have chosen to book a seat!";
+		bookSeat();
+		break;
 	default:
 		clearscreen();
 		cout << "Incorrect input";
@@ -318,8 +325,11 @@ void Admin::adminMenu()
 
 void Customer::customerMenu()
 {
+	Admin admin;
 	clearscreen();
 	customerLogin();
+	admin.chooseCinema();
+	admin.bookSeat();
 }
 
 void Admin::chooseCinema()
@@ -433,4 +443,123 @@ void Customer::customerLogin()
 		
 		break;
 	}
+}
+
+void Admin::loadSeats()
+{
+	string seatPath;
+	if (cinema == 1)
+		seatPath = "cinemaCity\\Seats\\" + showName + ".txt";
+	else if (cinema == 2)
+		seatPath = "cinemaMax\\Seats\\" + showName + ".txt";
+
+	ifstream inFile(seatPath);
+	if (!inFile.is_open())
+	{
+		for (int i = 0; i < 9; i++)
+			for (int j = 0; j < 9; j++)
+				seats[i][j] = 0;
+	}
+	else
+	{
+		for (int i = 0; i < 9; i++)
+			for (int j = 0; j < 9; j++)
+				inFile >> seats[i][j];
+		inFile.close();
+	}
+}
+
+void Admin::saveSeats()
+{
+	string seatPath;
+	if (cinema == 1)
+		seatPath = "cinemaCity\\Seats\\" + showName + ".txt";
+	else if (cinema == 2)
+		seatPath = "cinemaMax\\Seats\\" + showName + ".txt";
+	
+	ofstream outFile(seatPath);
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			outFile << seats[i][j];
+		}
+		outFile << endl;
+	}
+	outFile.close();
+}
+
+const double silverTicket = 8.0;
+const double goldTicket = 12.0;
+const double platinumTicket = 18.0;
+
+void Admin::bookSeat()
+{
+	displayShow();
+	cout << "Enter the name of the show: ";
+	cin >> showName;
+
+	loadSeats();
+
+	cout << "\nSeat map (0-free, 1-taken):" << endl;
+	for (int i = 0; i < 9; ++i)
+	{
+		for (int j = 0; j < 9; ++j)
+		{
+			cout << seats[i][j] << ' ';
+		}
+
+		cout << "  <- " << tierFromRow(i) << endl;
+	}
+
+	cout << endl << "Enter seat to book:\n";
+	cout << "Row (0-8): ";
+	cin >> row;
+	cout << "Col (0-8): ";
+	cin >> col;
+
+
+	if (row < 0 || row >= 9 || col < 0 || col >= 9)
+	{
+		cout << "Invalid seat position!" << endl;
+		return;
+	}
+
+	if (seats[row][col] == 1)
+	{
+		cout << "This seat is already taken!" << endl;
+		return;
+	}
+
+	string tier = tierFromRow(row);
+	double price = priceFromRow(row);
+
+	cout << endl << "Seat category: " << tier
+		<< " | Ticket price: " << price << " lv" << endl << "Confirm (y/n)? ";
+	char confirm;
+	cin >> confirm;
+	if (confirm != 'y' && confirm != 'Y')
+	{
+		cout << "Booking cancelled!" << endl;
+		return;
+	}
+
+	seats[row][col] = 1;
+	saveSeats();
+
+	cout << "Seat successfully booked!" << endl;
+}
+
+static string tierFromRow(int r)
+{
+	if (r <= 2) return "Silver";
+	if (r <= 5) return "Gold";
+	return "Platinum";
+}
+
+static double priceFromRow(int r)
+{
+	if (r <= 2) return silverTicket;
+	if (r <= 5) return goldTicket;
+	return platinumTicket;
 }
