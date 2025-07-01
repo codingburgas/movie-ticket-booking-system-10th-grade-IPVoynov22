@@ -1,5 +1,4 @@
-﻿
-#include "../Include/Menu.h"
+﻿#include "../Include/Menu.h"
 namespace fs = std::filesystem;
 
 void clearscreen()
@@ -493,6 +492,7 @@ const double silverTicket = 8.0;
 const double goldTicket = 12.0;
 const double platinumTicket = 18.0;
 
+
 void Admin::bookSeat()
 {
 	displayShow();
@@ -548,6 +548,21 @@ void Admin::bookSeat()
 	saveSeats();
 
 	cout << "Seat successfully booked!" << endl;
+	clearscreen();
+	string cardNumber;
+	string cardHolderFirst, cardHolderLast;
+	string cardDate;
+	string cvv;
+
+	cout << "You hace to pay: " << price << "lv" << endl;
+	cout << "Enter your 16-digit credit card number: ";
+	cin >> cardNumber;
+	cout << "Enter the name on the card: ";
+	cin >> cardHolderFirst >> cardHolderLast;
+	cout << "Enter expiry date (MM/YY): ";
+	cin >> cardDate;
+	cout << "Enter the 3-digit CVV: ";
+	cin >> cvv;
 }
 
 static string tierFromRow(int r)
