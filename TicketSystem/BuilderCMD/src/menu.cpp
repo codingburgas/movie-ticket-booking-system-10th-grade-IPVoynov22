@@ -84,6 +84,7 @@ void Admin::display()
 void Admin::addShow()
 {
 	display();
+	Admin admin;
 	cout << "Which movie you want to select" << endl;
 	string name;
 	cin >> name;
@@ -109,11 +110,9 @@ void Admin::addShow()
 	filmTittle = name;
 	projectionDate = date;
 	typeOfSeat = type;
-
 	fileShow << filmTittle << endl;
 	fileShow << projectionDate << endl;
 	fileShow << typeOfSeat << endl;
-
 	fileShow.close();
 }
 
@@ -157,7 +156,8 @@ void Admin::updateShow()
 
 	ifstream inFile(filePath);
 
-	if (!inFile.is_open())
+	if (!
+		inFile.is_open())
 	{
 		cout << "Show not found!" << endl;
 		return;
@@ -461,9 +461,13 @@ void Admin::loadSeats()
 	}
 	else
 	{
-		for (int i = 0; i < 9; i++)
-			for (int j = 0; j < 9; j++)
-				inFile >> seats[i][j];
+		string line;
+		for (int i = 0; i < 9; i++) {
+			getline(inFile, line);
+			for (int j = 0; j < 9; j++) {
+				seats[i][j] = line[j] - '0'; 
+			}
+		}
 		inFile.close();
 	}
 }
@@ -480,7 +484,7 @@ void Admin::saveSeats()
 	for (int i = 0; i < 9; i++)
 	{
 		for (int j = 0; j < 9; j++)
-		{
+		{	
 			outFile << seats[i][j];
 		}
 		outFile << endl;
@@ -497,8 +501,8 @@ void Admin::bookSeat()
 {
 	displayShow();
 	cout << "Enter the name of the show: ";
-	cin >> showName;
-
+	string name;
+	cin >> name;
 	loadSeats();
 
 	cout << "\nSeat map (0-free, 1-taken):" << endl;
@@ -557,12 +561,24 @@ void Admin::bookSeat()
 	cout << "You hace to pay: " << price << "lv" << endl;
 	cout << "Enter your 16-digit credit card number: ";
 	cin >> cardNumber;
+	if (stoi(cardNumber) != 16)
+	{
+		cout << "Incorrect input";
+		return;
+	}
 	cout << "Enter the name on the card: ";
 	cin >> cardHolderFirst >> cardHolderLast;
 	cout << "Enter expiry date (MM/YY): ";
 	cin >> cardDate;
 	cout << "Enter the 3-digit CVV: ";
 	cin >> cvv;
+	if (stoi(cvv) != 3)
+	{
+		cout << "Incorrect input";
+		return;
+	}
+	cout << "You paid successfully" << endl;
+	cout << "Enjoy your projection";
 }
 
 static string tierFromRow(int r)

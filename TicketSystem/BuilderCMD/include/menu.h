@@ -15,7 +15,7 @@ class Admin
     int seats[9][9] = { 0 };
     int row, col;
     string showName;
-    public:
+public:
     void adminMenu();
     void adminLogIn();
     void createOrDeleteMovie();
