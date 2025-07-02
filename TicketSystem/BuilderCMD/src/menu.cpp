@@ -561,9 +561,8 @@ void Admin::bookSeat()
 	cout << "You hace to pay: " << price << "lv" << endl;
 	cout << "Enter your 16-digit credit card number: ";
 	cin >> cardNumber;
-	if (stoi(cardNumber) != 16)
-	{
-		cout << "Incorrect input";
+	if (cardNumber.length() != 16) {
+		cout << "Incorrect input: Card number must be exactly 16 digits." << endl;
 		return;
 	}
 	cout << "Enter the name on the card: ";
@@ -572,9 +571,8 @@ void Admin::bookSeat()
 	cin >> cardDate;
 	cout << "Enter the 3-digit CVV: ";
 	cin >> cvv;
-	if (stoi(cvv) != 3)
-	{
-		cout << "Incorrect input";
+	if (cvv.length() != 3) {
+		cout << "Incorrect input: CVV must be exactly 3 digits." << endl;
 		return;
 	}
 	cout << "You paid successfully" << endl;
