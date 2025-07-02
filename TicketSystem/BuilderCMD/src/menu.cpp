@@ -438,6 +438,14 @@ void Customer::customerLogin()
 			{
 				cout << "You successfully logged in";
 			}
+			else
+			{
+				exit(0);
+			}
+		}
+		else
+		{
+			exit(0);
 		}
 		
 		break;
